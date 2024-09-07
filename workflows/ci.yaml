@@ -28,7 +28,7 @@ jobs:
         with:
           node-version: '18'
 
-      # 安装依赖
+      # 安装依git remote add origin git@github.com:shindouhiro/ci.git赖
       - name: Install dependencies
         run:  | 
            npm install
