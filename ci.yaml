@@ -1,0 +1,43 @@
+
+name: CI Pipeline
+
+# 当 push 或 pull request 时触发
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+# 定义要运行的作业
+jobs:
+  build:
+    # 运行环境
+    runs-on: ubuntu-latest
+
+    # 步骤定义
+    steps:
+      # 检出代码
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      # 设置 Node.js 环境
+      - name: Setup Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '18'
+
+      # 安装依赖
+      - name: Install dependencies
+        run:  | 
+           cd vite-project
+           npm install
+           npm run build
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}  # GitHub 自动提供的 token
+          publish_dir: ../dist
+          enable_jekyll: false
